@@ -24,7 +24,7 @@ const theme = createTheme({
   typography: {
     allVariants: {
       color: "#faf4ed", // Ensure all text is white
-      fontFamily: "monospace",
+      fontFamily: "'JetBrains Mono', monospace",  // Use JetBrains Mono font
     },
     h3: {
       fontWeight: 100,
