@@ -5,7 +5,10 @@ import {
   CssBaseline,
   Container,
   Typography,
+  IconButton,
+  Box,
 } from "@mui/material";
+import GitHubIcon from "@mui/icons-material/GitHub";
 import PokemonList from "./components/PokemonList";
 
 const theme = createTheme({
@@ -27,7 +30,7 @@ const theme = createTheme({
       fontWeight: 100,
       marginTop: "16px",
       letterSpacing: "5px",
-alignItems: "center",
+      alignItems: "center",
     },
   },
   components: {
@@ -62,7 +65,6 @@ alignItems: "center",
         root: {
           width: 75,
           height: 75, // Increase avatar size
-          // backgroundColor: "#faf4ed",  White background for Avatars
           marginRight: "15px", // Spacing between avatars and text
         },
       },
@@ -75,13 +77,23 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Container>
-        <Typography
-          variant="h3"
-          component="h1"
-        >
+        <Typography variant="h3" component="h1">
           POKEMON LIST
         </Typography>
-        <Typography variant="h6" component="p" gutterBottom>✨ Made by Deekaye ✨</Typography>
+        <Box display="flex" alignItems="center" mb={2}>
+          <Typography variant="h6" component="p">
+            ✨ Made by Deekaye ✨
+          </Typography>
+          <IconButton
+            aria-label="GitHub repository"
+            href="https://github.com/Deekayee/pokeList"
+            target="_blank"
+            rel="noopener"
+            sx={{ color: "#faf4ed", marginLeft: 1 }}
+          >
+            <GitHubIcon />
+          </IconButton>
+        </Box>
         <PokemonList />
       </Container>
     </ThemeProvider>
