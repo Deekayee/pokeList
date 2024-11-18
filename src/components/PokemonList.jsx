@@ -125,6 +125,7 @@ const PokemonList = () => {
           sx={{
             "& .MuiPaginationItem-root": {
               color: "#faf4ed", // Default text color
+              fontSize: "1rem", // Default size for desktop
             },
             "& .MuiPaginationItem-page": {
               borderRadius: "50%", // Circular buttons
@@ -142,6 +143,14 @@ const PokemonList = () => {
             "& .MuiPaginationItem-previousNext:not(.Mui-disabled):hover": {
               backgroundColor: "#26233a", // Hover color for arrows (previous/next buttons)
             },
+                  // Responsive styles for mobile
+      "@media (max-width: 600px)": {
+        "& .MuiPaginationItem-root": {
+          fontSize: "0.8rem", // Smaller text size on mobile
+          minWidth: "25px", // Reduce button width
+          height: "25px", // Reduce button height
+        },
+      },
           }}
         />
       </Box>
