@@ -114,7 +114,7 @@ const PokemonList = () => {
           display: "flex",
           justifyContent: "center",
           mt: 4,
-          mb: 4, // Add bottom margin of 20px
+          mb: 5, // Add bottom margin
         }}
       >
         <Pagination
