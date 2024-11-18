@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import {
   Modal,
   Card,
@@ -6,61 +7,78 @@ import {
   CardMedia,
   Typography,
   Button,
-  Box,
 } from "@mui/material";
 
 const PokemonModal = ({ open, onClose, pokemon }) => {
-  if (!pokemon) return null; // Handle case when no Pokémon data is passed
+  if (!pokemon) return null;
 
   return (
-    <Modal open={open} onClose={onClose}>
-      <Box
+    <Modal
+      open={open}
+      onClose={onClose}
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Card
         sx={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
+          backgroundColor: "#191724",
           width: 400,
-          bgcolor: "background.paper",
           boxShadow: 24,
-          p: 4,
           borderRadius: 2,
+          outline: "none", // Remove default focus outline
         }}
       >
-        <Card>
-          <CardMedia
-            component="img"
-            image={pokemon.sprite}
-            alt={pokemon.name}
-            sx={{ width: "100px", margin: "0 auto", mt: 2 }}
-          />
-          <CardContent>
-            <Typography variant="h5" align="center" gutterBottom>
-              {pokemon.name.toUpperCase()}
-            </Typography>
-            <Typography variant="subtitle1">Stats:</Typography>
-            <ul>
-              {pokemon.stats.map((stat) => (
-                <li key={stat.name}>
-                  <Typography>
-                    {stat.name.toUpperCase()}: {stat.value}
-                  </Typography>
-                </li>
-              ))}
-            </ul>
-            <Button
-              fullWidth
-              variant="contained"
-              sx={{ mt: 2 }}
-              onClick={onClose}
-            >
-              Close
-            </Button>
-          </CardContent>
-        </Card>
-      </Box>
+        <CardMedia
+          component="img"
+          image={pokemon.sprite}
+          alt={pokemon.name}
+          sx={{ width: "100px", margin: "0 auto", mt: 2 }}
+        />
+        <CardContent>
+          <Typography variant="h5" align="center" gutterBottom>
+            {pokemon.name.toUpperCase()}
+          </Typography>
+          <Typography variant="subtitle1">Stats:</Typography>
+          <ul>
+            {pokemon.stats.map((stat) => (
+              <li key={stat.name}>
+                <Typography>
+                  {stat.name.toUpperCase()}: {stat.value}
+                </Typography>
+              </li>
+            ))}
+          </ul>
+          <Button
+            fullWidth
+            variant="contained"
+            sx={{ mt: 2, color: "#eb6f92", backgroundColor: "#191724" }}
+            onClick={onClose}
+          >
+            Close
+          </Button>
+        </CardContent>
+      </Card>
     </Modal>
   );
+};
+
+// Add PropTypes for validation
+PokemonModal.propTypes = {
+  open: PropTypes.bool.isRequired, // Modal open state
+  onClose: PropTypes.func.isRequired, // Function to close the modal
+  pokemon: PropTypes.shape({
+    name: PropTypes.string.isRequired, // Pokémon name
+    sprite: PropTypes.string.isRequired, // Pokémon sprite URL
+    stats: PropTypes.arrayOf(
+      PropTypes.shape({
+        name: PropTypes.string.isRequired, // Stat name
+        value: PropTypes.number.isRequired, // Stat value
+      })
+    ).isRequired,
+  }),
 };
 
 export default PokemonModal;
