@@ -12,7 +12,6 @@ import {
   Box,
   Pagination,
 } from "@mui/material";
-import axios from "axios";
 import PokemonModal from "./PokemonModal";
 import SearchBox from "./SearchBox";
 
@@ -31,23 +30,23 @@ const PokemonList = () => {
     dispatch(fetchPokemons());
   }, [dispatch]);
 
-  const handleOpen = async (pokemonUrl) => {
-    try {
-      const response = await axios.get(pokemonUrl);
+  const handleOpen = (pokemonUrl) => {
+    // Find the selected Pokémon object in the Redux store
+    const pokemonData = pokemons.find((pokemon) => pokemon.url === pokemonUrl);
+  
+    if (pokemonData) {
       setSelectedPokemon({
-        name: response.data.name,
-        sprite: response.data.sprites.front_default,
-        stats: response.data.stats.map((stat) => ({
-          name: stat.stat.name,
-          value: stat.base_stat,
-        })),
+        name: pokemonData.name,
+        sprite: pokemonData.sprite,
+        description: pokemonData.description, // Include description
+        stats: pokemonData.stats, // Include stats
       });
       setOpen(true);
-    } catch (error) {
-      console.error("Failed to fetch Pokémon details", error);
+    } else {
+      console.error("Selected Pokémon not found in Redux store");
     }
   };
-
+  
   const handleClose = () => {
     setOpen(false);
     setSelectedPokemon(null);
@@ -143,14 +142,14 @@ const PokemonList = () => {
             "& .MuiPaginationItem-previousNext:not(.Mui-disabled):hover": {
               backgroundColor: "#26233a", // Hover color for arrows (previous/next buttons)
             },
-                  // Responsive styles for mobile
-      "@media (max-width: 600px)": {
-        "& .MuiPaginationItem-root": {
-          fontSize: "0.8rem", // Smaller text size on mobile
-          minWidth: "25px", // Reduce button width
-          height: "25px", // Reduce button height
-        },
-      },
+            // Responsive styles for mobile
+            "@media (max-width: 600px)": {
+              "& .MuiPaginationItem-root": {
+                fontSize: "0.8rem", // Smaller text size on mobile
+                minWidth: "25px", // Reduce button width
+                height: "25px", // Reduce button height
+              },
+            },
           }}
         />
       </Box>

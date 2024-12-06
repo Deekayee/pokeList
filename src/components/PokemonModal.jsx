@@ -41,6 +41,20 @@ const PokemonModal = ({ open, onClose, pokemon }) => {
           <Typography variant="h5" align="center" gutterBottom>
             {pokemon.name.toUpperCase()}
           </Typography>
+
+          {/* Description Section */}
+          <Typography
+            variant="body2"
+            sx={{
+              mb: 2,
+              fontStyle: "italic",
+              color: "#eb6f92",
+            }}
+          >
+            {pokemon.description || "No description available."}
+          </Typography>
+
+          {/* Stats Section */}
           <Typography variant="subtitle1">Stats:</Typography>
           <ul>
             {pokemon.stats.map((stat) => (
@@ -51,10 +65,15 @@ const PokemonModal = ({ open, onClose, pokemon }) => {
               </li>
             ))}
           </ul>
+
           <Button
             fullWidth
             variant="contained"
-            sx={{ mt: 2, color: "#eb6f92", backgroundColor: "#191724" }}
+            sx={{
+              mt: 2,
+              color: "#eb6f92",
+              backgroundColor: "#191724",
+            }}
             onClick={onClose}
           >
             Close
@@ -72,6 +91,7 @@ PokemonModal.propTypes = {
   pokemon: PropTypes.shape({
     name: PropTypes.string.isRequired, // Pokémon name
     sprite: PropTypes.string.isRequired, // Pokémon sprite URL
+    description: PropTypes.string, // Pokémon description
     stats: PropTypes.arrayOf(
       PropTypes.shape({
         name: PropTypes.string.isRequired, // Stat name

@@ -78,7 +78,7 @@ const App = () => {
       <CssBaseline />
       <Container>
         <Typography variant="h3" component="h1">
-          POKEMON LIST
+          POKÉMON LIST
         </Typography>
         <Box display="flex" alignItems="center" mb={2}>
           <Typography variant="h6" component="p">

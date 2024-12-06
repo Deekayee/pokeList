@@ -10,10 +10,28 @@ export const fetchPokemons = createAsyncThunk(
     const pokemonData = await Promise.all(
       response.data.results.map(async (pokemon) => {
         const pokeDetail = await axios.get(pokemon.url);
+        const speciesDetail = await axios.get(pokeDetail.data.species.url);
+
+        // Extract English flavor text
+        const descriptionEntry = speciesDetail.data.flavor_text_entries.find(
+          (entry) => entry.language.name === "en"
+        );
+        const description = descriptionEntry
+          ? descriptionEntry.flavor_text.replace(/\n|\f/g, " ")
+          : "No description available.";
+
+        // Extract stats
+        const stats = pokeDetail.data.stats.map((stat) => ({
+          name: stat.stat.name,
+          value: stat.base_stat,
+        }));
+
         return {
           name: pokemon.name,
           sprite: pokeDetail.data.sprites.front_default,
           url: pokemon.url,
+          description,
+          stats, // Include stats
         };
       })
     );
