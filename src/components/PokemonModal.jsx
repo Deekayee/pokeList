@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   Modal,
@@ -10,9 +9,7 @@ import {
   Switch,
   FormControlLabel,
 } from '@mui/material';
-
-const PokemonModal = ({ open, onClose, pokemon }) => {
-  const [showShiny, setShowShiny] = useState(false);
+const PokemonModal = ({ open, onClose, pokemon, showShiny, setShowShiny }) => {
 
   if (!pokemon) return null;
 
@@ -141,6 +138,8 @@ PokemonModal.propTypes = {
       })
     ).isRequired,
   }),
+  showShiny: PropTypes.bool.isRequired, // Whether shiny sprite is displayed
+  setShowShiny: PropTypes.func.isRequired, // Function to toggle shiny sprite
 };
 
 export default PokemonModal;

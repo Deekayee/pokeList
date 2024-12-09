@@ -24,6 +24,15 @@ const PokemonList = () => {
   const [searchTerm, setSearchTerm] = useState(''); // State for search input
   const [currentPage, setCurrentPage] = useState(1); // Current page state
 
+  const [showShiny, setShowShiny] = useState(false); // Track shiny switch state
+
+const handleClose = () => {
+  setOpen(false);
+  setSelectedPokemon(null);
+  setShowShiny(false); // Reset shiny state when modal closes
+};
+
+
   const itemsPerPage = 50; // Limit of items per page
 
   useEffect(() => {
@@ -46,11 +55,6 @@ const PokemonList = () => {
     } else {
       console.error('Selected Pokémon not found in Redux store');
     }
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-    setSelectedPokemon(null);
   };
 
   const handlePageChange = (event, value) => {
@@ -159,6 +163,8 @@ const PokemonList = () => {
         open={open}
         onClose={handleClose}
         pokemon={selectedPokemon}
+        showShiny={showShiny}
+        setShowShiny={setShowShiny}
       />
     </>
   );
