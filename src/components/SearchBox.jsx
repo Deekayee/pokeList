@@ -1,7 +1,7 @@
 import { TextField, Box } from '@mui/material';
 import PropTypes from 'prop-types';
 
-const SearchBox = ({ searchTerm, setSearchTerm }) => {
+const SearchBox = ({ searchTerm, setSearchTerm, handleSearchChange }) => {
   return (
     <Box sx={{ mb: 4 }}>
       <TextField
@@ -9,7 +9,7 @@ const SearchBox = ({ searchTerm, setSearchTerm }) => {
         variant='outlined'
         label='Search Pokémon'
         value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value.toLowerCase())}
+        onChange={(e) => setSearchTerm(e.target.value.toLowerCase()) & handleSearchChange(e)}
         sx={{
           backgroundColor: '#1f1d2e',
           borderRadius: '8px',
@@ -39,6 +39,7 @@ const SearchBox = ({ searchTerm, setSearchTerm }) => {
 SearchBox.propTypes = {
   searchTerm: PropTypes.string.isRequired,
   setSearchTerm: PropTypes.func.isRequired,
+  handleSearchChange: PropTypes.func.isRequired,
 };
 
 export default SearchBox;

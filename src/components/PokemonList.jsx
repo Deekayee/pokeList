@@ -23,17 +23,33 @@ const PokemonList = () => {
   const [selectedPokemon, setSelectedPokemon] = useState(null);
   const [searchTerm, setSearchTerm] = useState(''); // State for search input
   const [currentPage, setCurrentPage] = useState(1); // Current page state
-
   const [showShiny, setShowShiny] = useState(false); // Track shiny switch state
+  const [searchQuery, setSearchQuery] = useState(""); // Track the search query
+
+// Handle Search Input Change
+const handleSearchChange = (event) => {
+  setSearchQuery(event.target.value);
+  setCurrentPage(1); // Reset to the first page when search changes
+};
+
+// Filtered Pokémon List Based on Search Query
+const filteredPokemons = pokemons.filter((pokemon) =>
+  pokemon.name.toLowerCase().includes(searchQuery.toLowerCase())
+);
+
+// Paginate Filtered Results
+const itemsPerPage = 20; // Number of Pokémon per page
+const paginatedPokemons = filteredPokemons.slice(
+  (currentPage - 1) * itemsPerPage,
+  currentPage * itemsPerPage
+);
+
 
 const handleClose = () => {
   setOpen(false);
   setSelectedPokemon(null);
   setShowShiny(false); // Reset shiny state when modal closes
 };
-
-
-  const itemsPerPage = 50; // Limit of items per page
 
   useEffect(() => {
     dispatch(fetchPokemons());
@@ -61,18 +77,6 @@ const handleClose = () => {
     setCurrentPage(value); // Update the current page
   };
 
-  // Filter Pokémon list based on search term
-  const filteredPokemons = pokemons.filter((pokemon) =>
-    pokemon.name.toLowerCase().includes(searchTerm)
-  );
-
-  // Get paginated Pokémon for the current page
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const paginatedPokemons = filteredPokemons.slice(
-    startIndex,
-    startIndex + itemsPerPage
-  );
-
   if (loading)
     return (
       <Box
@@ -91,7 +95,7 @@ const handleClose = () => {
 
   return (
     <>
-      <SearchBox searchTerm={searchTerm} setSearchTerm={setSearchTerm} />{' '}
+      <SearchBox searchTerm={searchTerm} setSearchTerm={setSearchTerm} handleSearchChange={handleSearchChange} />{' '}
       {/* Search box */}
       <List>
         {paginatedPokemons.map((pokemon) => (
