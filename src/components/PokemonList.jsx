@@ -85,6 +85,9 @@ const handleClose = () => {
           justifyContent: 'center',
           alignItems: 'center',
           height: '75vh',
+          '@media (max-width: 600px)': {
+            height: '40vh',
+          },
         }}
       >
         <CircularProgress size={80} sx={{ color: '#eb6f92' }} />
