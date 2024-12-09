@@ -1,3 +1,4 @@
+import { useState } from "react";
 import PropTypes from "prop-types";
 import {
   Modal,
@@ -6,10 +7,16 @@ import {
   CardMedia,
   Typography,
   Button,
+  Switch,
+  FormControlLabel,
 } from "@mui/material";
 
 const PokemonModal = ({ open, onClose, pokemon }) => {
+  const [showShiny, setShowShiny] = useState(false);
+
   if (!pokemon) return null;
+
+  const hasShiny = !!pokemon.shinySprite; // Check if the shiny sprite exists
 
   return (
     <Modal
@@ -28,15 +35,45 @@ const PokemonModal = ({ open, onClose, pokemon }) => {
           boxShadow: 24,
           borderRadius: 2,
           outline: "none", // Remove default focus outline
+          "@media (max-width: 600px)": {
+            width: "90%",
+          },
         }}
       >
         <CardMedia
           component="img"
-          image={pokemon.sprite}
-          alt={pokemon.name}
-          sx={{ width: "100px", margin: "0 auto", mt: 2 }}
+          image={showShiny && hasShiny ? pokemon.shinySprite : pokemon.sprite}
+          alt={`${pokemon.name} ${showShiny ? "Shiny" : "Default"}`}
+          sx={{ width: "250px", margin: "0 auto", mt: 2, imageRendering: "pixelated",           
+            "@media (max-width: 600px)": {
+            width: "144px",
+          }, }}
         />
         <CardContent>
+          {/* Switch to toggle shiny sprite */}
+          <FormControlLabel
+            control={
+              <Switch
+              checked={showShiny}
+              onChange={() => setShowShiny(!showShiny)}
+              disabled={!hasShiny} // Disable switch if no shiny sprite
+              sx={{
+                '& .MuiSwitch-switchBase.Mui-checked': {
+                  color: '#eb6f92', // Color the switch when checked
+                },
+                '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
+                  backgroundColor: '#eb6f92', // Track color when checked
+                },
+                '& .MuiSwitch-switchBase.Mui-disabled': {
+                  color: '#191724', // Color when disabled (optional)
+                },
+              }}
+            />
+            }
+            label="Shiny version"
+            sx={{ display: "flex", justifyContent: "center", mb: 2 }}
+          />
+
           <Typography variant="h5" align="center" gutterBottom>
             {pokemon.name.toUpperCase()}
           </Typography>
@@ -90,6 +127,7 @@ PokemonModal.propTypes = {
   pokemon: PropTypes.shape({
     name: PropTypes.string.isRequired, // Pokémon name
     sprite: PropTypes.string.isRequired, // Pokémon sprite URL
+    shinySprite: PropTypes.string, // Pokémon shiny sprite URL
     description: PropTypes.string, // Pokémon description
     stats: PropTypes.arrayOf(
       PropTypes.shape({

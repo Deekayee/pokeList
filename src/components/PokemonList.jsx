@@ -38,6 +38,7 @@ const PokemonList = () => {
       setSelectedPokemon({
         name: pokemonData.name,
         sprite: pokemonData.sprite,
+        shinySprite: pokemonData.shinySprite,
         description: pokemonData.description, // Include description
         stats: pokemonData.stats, // Include stats
       });

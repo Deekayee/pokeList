@@ -29,6 +29,7 @@ export const fetchPokemons = createAsyncThunk(
         return {
           name: pokemon.name,
           sprite: pokeDetail.data.sprites.front_default,
+          shinySprite: pokeDetail.data.sprites.front_shiny,
           url: pokemon.url,
           description,
           stats, // Include stats
