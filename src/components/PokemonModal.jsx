@@ -44,31 +44,36 @@ const PokemonModal = ({ open, onClose, pokemon }) => {
           component="img"
           image={showShiny && hasShiny ? pokemon.shinySprite : pokemon.sprite}
           alt={`${pokemon.name} ${showShiny ? "Shiny" : "Default"}`}
-          sx={{ width: "250px", margin: "0 auto", mt: 2, imageRendering: "pixelated",           
+          sx={{
+            width: "250px",
+            margin: "0 auto",
+            mt: 2,
+            imageRendering: "pixelated",
             "@media (max-width: 600px)": {
-            width: "144px",
-          }, }}
+              width: "96px",
+            },
+          }}
         />
         <CardContent>
           {/* Switch to toggle shiny sprite */}
           <FormControlLabel
             control={
               <Switch
-              checked={showShiny}
-              onChange={() => setShowShiny(!showShiny)}
-              disabled={!hasShiny} // Disable switch if no shiny sprite
-              sx={{
-                '& .MuiSwitch-switchBase.Mui-checked': {
-                  color: '#eb6f92', // Color the switch when checked
-                },
-                '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
-                  backgroundColor: '#eb6f92', // Track color when checked
-                },
-                '& .MuiSwitch-switchBase.Mui-disabled': {
-                  color: '#191724', // Color when disabled (optional)
-                },
-              }}
-            />
+                checked={showShiny}
+                onChange={() => setShowShiny(!showShiny)}
+                disabled={!hasShiny} // Disable switch if no shiny sprite
+                sx={{
+                  "& .MuiSwitch-switchBase.Mui-checked": {
+                    color: "#eb6f92", // Color the switch when checked
+                  },
+                  "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
+                    backgroundColor: "#eb6f92", // Track color when checked
+                  },
+                  "& .MuiSwitch-switchBase.Mui-disabled": {
+                    color: "#191724", // Color when disabled (optional)
+                  },
+                }}
+              />
             }
             label="Shiny version"
             sx={{ display: "flex", justifyContent: "center", mb: 2 }}
