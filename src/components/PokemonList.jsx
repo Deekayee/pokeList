@@ -18,7 +18,6 @@ import SearchBox from './SearchBox';
 const PokemonList = () => {
   const dispatch = useDispatch();
   const { pokemons, loading, error } = useSelector((state) => state.pokemon);
-
   const [open, setOpen] = useState(false);
   const [selectedPokemon, setSelectedPokemon] = useState(null);
   const [searchTerm, setSearchTerm] = useState(''); // State for search input
@@ -43,7 +42,6 @@ const paginatedPokemons = filteredPokemons.slice(
   (currentPage - 1) * itemsPerPage,
   currentPage * itemsPerPage
 );
-
 
 const handleClose = () => {
   setOpen(false);
@@ -98,7 +96,7 @@ const handleClose = () => {
 
   return (
     <>
-      <SearchBox searchTerm={searchTerm} setSearchTerm={setSearchTerm} handleSearchChange={handleSearchChange} />{' '}
+      <SearchBox searchTerm={searchTerm} setSearchTerm={setSearchTerm} handleSearchChange={handleSearchChange} />
       {/* Search box */}
       <List>
         {paginatedPokemons.map((pokemon) => (
