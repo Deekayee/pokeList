@@ -4,15 +4,27 @@ import axios from 'axios';
 export const fetchPokemons = createAsyncThunk(
   'pokemon/fetchPokemons',
   async () => {
+    const generationToRegionMap = {
+      'generation-i': 'KANTO',
+      'generation-ii': 'JOHTO',
+      'generation-iii': 'HOENN',
+      'generation-iv': 'SINNOH',
+      'generation-v': 'UNOVA',
+      'generation-vi': 'KALOS',
+      'generation-vii': 'ALOLA',
+      'generation-viii': 'GALAR',
+      'generation-ix': 'PALDEA',
+    };
+
     const response = await axios.get(
       'https://pokeapi.co/api/v2/pokemon?limit=100000'
     );
+
     const pokemonData = await Promise.all(
       response.data.results.map(async (pokemon) => {
         const pokeDetail = await axios.get(pokemon.url);
         const speciesDetail = await axios.get(pokeDetail.data.species.url);
 
-        // Extract English flavor text
         const descriptionEntry = speciesDetail.data.flavor_text_entries.find(
           (entry) => entry.language.name === 'en'
         );
@@ -20,11 +32,13 @@ export const fetchPokemons = createAsyncThunk(
           ? descriptionEntry.flavor_text.replace(/\n|\f/g, ' ')
           : 'No description available.';
 
-        // Extract stats
         const stats = pokeDetail.data.stats.map((stat) => ({
           name: stat.stat.name,
           value: stat.base_stat,
         }));
+
+        const generationName = speciesDetail.data.generation.name;
+        const region = generationToRegionMap[generationName] || 'Unknown';
 
         return {
           name: pokemon.name,
@@ -32,7 +46,9 @@ export const fetchPokemons = createAsyncThunk(
           shinySprite: pokeDetail.data.sprites.front_shiny,
           url: pokemon.url,
           description,
-          stats, // Include stats
+          stats,
+          region,
+          types: pokeDetail.data.types.map((t) => t.type.name),
         };
       })
     );

@@ -104,6 +104,20 @@ const PokemonModal = ({ open, onClose, pokemon, showShiny, setShowShiny }) => {
             ))}
           </ul>
 
+          {/* Types Section */}
+          <Typography variant='subtitle1'>Types:</Typography>
+          <ul>
+            {pokemon.types.map((type) => (
+              <li key={type}>
+                <Typography>{type.toUpperCase()}</Typography>
+              </li>
+            ))}
+          </ul>
+
+          {/* Region Section */}
+          <Typography variant='subtitle1'>Region:</Typography>
+          <Typography>{pokemon.region}</Typography>
+
           <Button
             fullWidth
             variant='contained'
@@ -137,6 +151,8 @@ PokemonModal.propTypes = {
         value: PropTypes.number.isRequired, // Stat value
       })
     ).isRequired,
+    region: PropTypes.string, // Pokémon region
+    types: PropTypes.arrayOf(PropTypes.string), // Pokémon types
   }),
   showShiny: PropTypes.bool.isRequired, // Whether shiny sprite is displayed
   setShowShiny: PropTypes.func.isRequired, // Function to toggle shiny sprite

@@ -64,6 +64,8 @@ const handleClose = () => {
         shinySprite: pokemonData.shinySprite,
         description: pokemonData.description, // Include description
         stats: pokemonData.stats, // Include stats
+        region: pokemonData.region, // Include region
+        types: pokemonData.types, // Include types
       });
       setOpen(true);
     } else {
