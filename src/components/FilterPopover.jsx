@@ -3,7 +3,7 @@ import {
   Checkbox,
   FormControlLabel,
   Popover,
-  Box
+  Box,
 } from '@mui/material';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
@@ -23,11 +23,12 @@ const FilterPopover = ({ label, options, selectedOptions, onChange }) => {
     <>
       <Button
         onClick={handleClick}
-        variant="contained"
+        variant='contained'
         sx={{
           backgroundColor: '#1f1d2e',
           color: '#faf4ed',
-          border: '1px solid #2a273f',
+          borderRadius: '8px',
+          border: '1px solid rgba(255, 255, 255, 0.2)',
           textTransform: 'none',
           flex: 1,
           maxWidth: '250px',
@@ -53,7 +54,7 @@ const FilterPopover = ({ label, options, selectedOptions, onChange }) => {
         }}
         PaperProps={{
           sx: {
-            backgroundColor: '#1f1d2e',
+            backgroundColor: '#191724',
             color: '#faf4ed',
             p: 2,
             maxHeight: 300,

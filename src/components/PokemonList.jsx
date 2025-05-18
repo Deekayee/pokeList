@@ -136,6 +136,7 @@ const PokemonList = () => {
         handleSearchChange={handleSearchChange}
       />
 
+      {/* Filters */}
       <Box
         sx={{
           display: 'flex',
@@ -170,8 +171,9 @@ const PokemonList = () => {
           sx={{
             backgroundColor: '#eb6f92',
             color: '#191724',
+            borderRadius: '8px',
+            border: '1px solid rgba(255, 255, 255, 0.2)',
             px: 3,
-            py: 1,
             flexShrink: 0,
             '&:hover': {
               backgroundColor: '#f0839e',

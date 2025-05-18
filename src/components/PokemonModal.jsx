@@ -123,6 +123,8 @@ const PokemonModal = ({ open, onClose, pokemon, showShiny, setShowShiny }) => {
             variant='contained'
             sx={{
               mt: 2,
+              borderRadius: '8px',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
               color: '#eb6f92',
               backgroundColor: '#191724',
             }}
