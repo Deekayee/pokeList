@@ -5,15 +5,15 @@ export const fetchPokemons = createAsyncThunk(
   'pokemon/fetchPokemons',
   async () => {
     const generationToRegionMap = {
-      'generation-i': 'KANTO',
-      'generation-ii': 'JOHTO',
-      'generation-iii': 'HOENN',
-      'generation-iv': 'SINNOH',
-      'generation-v': 'UNOVA',
-      'generation-vi': 'KALOS',
-      'generation-vii': 'ALOLA',
-      'generation-viii': 'GALAR',
-      'generation-ix': 'PALDEA',
+      'generation-i': 'Kanto',
+      'generation-ii': 'Johto',
+      'generation-iii': 'Hoenn',
+      'generation-iv': 'Sinnoh',
+      'generation-v': 'Unova',
+      'generation-vi': 'Kalos',
+      'generation-vii': 'Alola',
+      'generation-viii': 'Galar',
+      'generation-ix': 'Paldea',
     };
 
     const response = await axios.get(
