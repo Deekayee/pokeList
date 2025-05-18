@@ -3,8 +3,7 @@ import {
   Checkbox,
   FormControlLabel,
   Popover,
-  Box,
-  Typography,
+  Box
 } from '@mui/material';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
@@ -63,7 +62,6 @@ const FilterPopover = ({ label, options, selectedOptions, onChange }) => {
         }}
       >
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <Typography sx={{ mb: 1, fontWeight: 600 }}>{label}</Typography>
           {options.map((option) => (
             <FormControlLabel
               key={option}
