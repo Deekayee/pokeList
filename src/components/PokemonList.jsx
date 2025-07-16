@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchPokemons } from '../pokemonSlice';
+import { useState } from 'react';
+import { usePokemon } from '../hooks/usePokemon';
 import {
   List,
   ListItem,
@@ -15,64 +14,30 @@ import {
 } from '@mui/material';
 import PokemonModal from './PokemonModal';
 import SearchBox from './SearchBox';
-import FilterPopover from './FilterPopover';
+import FilterControls from './FilterControls';
 
 const PokemonList = () => {
-  const dispatch = useDispatch();
-  const { pokemons, loading, error } = useSelector((state) => state.pokemon);
+  const {
+    pokemons,
+    loading,
+    error,
+    searchQuery,
+    selectedRegions,
+    selectedTypes,
+    currentPage,
+    allRegions,
+    allTypes,
+    filteredPokemons,
+    handleSearchChange,
+    handleRegionToggle,
+    handleTypeToggle,
+    resetFilters,
+    setCurrentPage,
+  } = usePokemon();
+
   const [open, setOpen] = useState(false);
   const [selectedPokemon, setSelectedPokemon] = useState(null);
-  const [searchTerm, setSearchTerm] = useState(''); // State for search input
-  const [currentPage, setCurrentPage] = useState(1); // Current page state
-  const [showShiny, setShowShiny] = useState(false); // Track shiny switch state
-  const [searchQuery, setSearchQuery] = useState(''); // Track the search query
-  const [selectedRegions, setSelectedRegions] = useState([]);
-  const [selectedTypes, setSelectedTypes] = useState([]);
-
-  // Handle Search Input Change
-  const handleSearchChange = (event) => {
-    setSearchQuery(event.target.value);
-    setCurrentPage(1); // Reset to the first page when search changes
-  };
-
-  const handleRegionToggle = (region) => {
-    setSelectedRegions((prev) =>
-      prev.includes(region)
-        ? prev.filter((r) => r !== region)
-        : [...prev, region]
-    );
-  };
-
-  const handleTypeToggle = (type) => {
-    setSelectedTypes((prev) =>
-      prev.includes(type) ? prev.filter((t) => t !== type) : [...prev, type]
-    );
-  };
-
-  const allRegions = [...new Set(pokemons.map((p) => p.region))];
-  const allTypes = [...new Set(pokemons.flatMap((p) => p.types || []))];
-
-  const filteredPokemons = pokemons.filter((pokemon) => {
-    const matchesSearch = pokemon.name
-      .toLowerCase()
-      .includes(searchQuery.toLowerCase());
-
-    const matchesRegion =
-      selectedRegions.length === 0 || selectedRegions.includes(pokemon.region);
-
-    const matchesType =
-      selectedTypes.length === 0 ||
-      pokemon.types?.some((type) => selectedTypes.includes(type));
-
-    return matchesSearch && matchesRegion && matchesType;
-  });
-
-  // Paginate Filtered Results
-  const itemsPerPage = 20; // Number of Pokémon per page
-  const paginatedPokemons = filteredPokemons.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
+  const [showShiny, setShowShiny] = useState(false);
 
   const handleClose = () => {
     setOpen(false);
@@ -80,12 +45,7 @@ const PokemonList = () => {
     setShowShiny(false); // Reset shiny state when modal closes
   };
 
-  useEffect(() => {
-    dispatch(fetchPokemons());
-  }, [dispatch]);
-
   const handleOpen = (pokemonUrl) => {
-    // Find the selected Pokémon object in the Redux store
     const pokemonData = pokemons.find((pokemon) => pokemon.url === pokemonUrl);
 
     if (pokemonData) {
@@ -104,8 +64,14 @@ const PokemonList = () => {
     }
   };
 
+  const itemsPerPage = 20;
+  const paginatedPokemons = filteredPokemons.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
   const handlePageChange = (event, value) => {
-    setCurrentPage(value); // Update the current page
+    setCurrentPage(value);
   };
 
   if (loading)
@@ -131,58 +97,20 @@ const PokemonList = () => {
     <>
       {/* Search box */}
       <SearchBox
-        searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
+        searchTerm={searchQuery}
         handleSearchChange={handleSearchChange}
       />
 
       {/* Filters */}
-      <Box
-        sx={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          gap: 2,
-          mt: 2,
-          mb: 3,
-        }}
-      >
-        <Box sx={{ display: 'flex', flex: 1, gap: 1 }}>
-          <FilterPopover
-            label='Region'
-            options={allRegions}
-            selectedOptions={selectedRegions}
-            onChange={handleRegionToggle}
-          />
-          <FilterPopover
-            label='Type'
-            options={allTypes}
-            selectedOptions={selectedTypes}
-            onChange={handleTypeToggle}
-          />
-        </Box>
-
-        <Button
-          onClick={() => {
-            setSelectedRegions([]);
-            setSelectedTypes([]);
-          }}
-          sx={{
-            backgroundColor: '#eb6f92',
-            color: '#191724',
-            borderRadius: '8px',
-            border: '1px solid rgba(255, 255, 255, 0.2)',
-            px: 3,
-            flexShrink: 0,
-            '&:hover': {
-              backgroundColor: '#f0839e',
-            },
-          }}
-        >
-          Reset Filters
-        </Button>
-      </Box>
+      <FilterControls
+        allRegions={allRegions}
+        selectedRegions={selectedRegions}
+        onRegionToggle={handleRegionToggle}
+        allTypes={allTypes}
+        selectedTypes={selectedTypes}
+        onTypeToggle={handleTypeToggle}
+        onResetFilters={resetFilters}
+      />
 
       <List>
         {paginatedPokemons.map((pokemon) => (

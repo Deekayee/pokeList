@@ -3,11 +3,8 @@ import {
   ThemeProvider,
   CssBaseline,
   Container,
-  Typography,
-  IconButton,
-  Box,
 } from '@mui/material';
-import GitHubIcon from '@mui/icons-material/GitHub';
+import Header from './components/Header';
 import PokemonList from './components/PokemonList';
 
 const theme = createTheme({
@@ -76,23 +73,7 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Container>
-        <Typography variant='h3' component='h1'>
-          POKÉMON LIST
-        </Typography>
-        <Box display='flex' alignItems='center' mb={2}>
-          <Typography variant='h6' component='p'>
-            ✨ Made by Deekaye ✨
-          </Typography>
-          <IconButton
-            aria-label='GitHub repository'
-            href='https://github.com/Deekayee/pokeList'
-            target='_blank'
-            rel='noopener'
-            sx={{ color: '#faf4ed', marginLeft: 1 }}
-          >
-            <GitHubIcon />
-          </IconButton>
-        </Box>
+        <Header />
         <PokemonList />
       </Container>
     </ThemeProvider>
